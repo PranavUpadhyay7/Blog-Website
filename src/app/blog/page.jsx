@@ -33,7 +33,7 @@ const Blog = async () => {
           </div>
 
           <div className={styles.content}>
-            <h1 className={styles.title}>{item.title}. Pranav</h1>
+            <h1 className={styles.title}>{item.title}.</h1>
             <p className={styles.desc}>desc</p>
           </div>
         </Link>
