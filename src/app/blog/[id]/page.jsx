@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
-import { notFound } from "next/navigation";
 
 async function getData(id) {
   const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
@@ -9,14 +8,16 @@ async function getData(id) {
   });
 
   if (!res.ok) {
-    return notFound();
+    throw new Error("failed to fetch data");
   }
 
   return res.json();
 }
 
 const BlogPost = async ({ params }) => {
-  const data = await getData((await params).id);
+  const { id } = await params; // ✅ FIX
+
+  const data = await getData(id);
 
   return (
     <div className={styles.container}>
@@ -35,12 +36,14 @@ const BlogPost = async ({ params }) => {
             <span className={styles.username}>{data.username}</span>
           </div>
         </div>
+
         <div className={styles.imageContainer}>
-          <Image src={data.img} alt="" fill={true} className={styles.image} />
+          <Image src={data.img} alt="" width={800} height={400} />
         </div>
       </div>
+
       <div className={styles.content}>
-        <p className={styles.text}>{data.content}</p>
+        <p>{data.content}</p>
       </div>
     </div>
   );
