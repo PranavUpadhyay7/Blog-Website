@@ -14,10 +14,20 @@ async function getData(id) {
   return res.json();
 }
 
+export async function generateMetadata({ params }) {
+  const { id } = await params; // ✅ FIX
+
+  const post = await getData(id);
+  return {
+    title: post.title,
+    description: post.desc,
+  };
+}
+
 const BlogPost = async ({ params }) => {
   const { id } = await params; // ✅ FIX
 
-  const data = await getData(id);
+  const post = await getData(id);
 
   return (
     <div className={styles.container}>
